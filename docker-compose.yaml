@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  rkn:
+    build: ./rkn-service/
+    command: rkn-service
+    depends_on:
+      - mongo
+    ports:
+      - "8080"
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - rkn
